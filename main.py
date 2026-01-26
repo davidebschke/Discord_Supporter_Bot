@@ -3,5 +3,5 @@
 def getGreeting():
     return "Hello World!"
 
-if __name__ == "__main__":
-    print(getGreeting())
+if __name__ == "__main__": # pragma: no cover
+    print(getGreeting()) # pragma: no cover
