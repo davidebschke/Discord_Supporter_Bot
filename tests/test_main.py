@@ -1,5 +1,5 @@
 import unittest
-from main import *
+
 
 class MyTestCase(unittest.TestCase):
     def test_getGreeting(self):

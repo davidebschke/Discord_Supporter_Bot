@@ -23,7 +23,8 @@ jobs:
             pip install pytest pytest-cov # Tools für den Report
 
       - name: Run Tests and Generate Report
-        run: |
+        run: |   
+              export PYTHONPATH=$PYTHONPATH:
               pytest --cov=. --cov-report=xml:coverage.xml
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
