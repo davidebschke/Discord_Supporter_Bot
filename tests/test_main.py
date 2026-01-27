@@ -1,4 +1,6 @@
 import unittest
 
-if __name__ == '__main__':
+class MyTestCase(unittest.TestCase):
+
+    if __name__ == '__main__':
      unittest.main()
