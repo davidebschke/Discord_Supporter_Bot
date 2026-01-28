@@ -30,8 +30,6 @@ async def on_voice_state_update(member, before, after):
             date_welcome_jokes = json.load(f)
         random_joke = random.choice(date_welcome_jokes["jokes"]["welcome"])
     else:
-        print("FEHLER: Path existiert nicht")
-        print(f"Aktueller Arbeitsordner: {os.getcwd()}")
         random_joke = None
     # The first channel you enter
     if before.channel is None and after.channel is not None:
@@ -44,9 +42,5 @@ async def on_voice_state_update(member, before, after):
         channel = after.channel.guild.system_channel
         await channel.send(f"🔄 {member.display_name}, ist von `{before.channel.name}` zu `{after.channel.name}` gewechselt.")
 
-# --- 3. START ---
-if __name__ == "__main__":
-   if DiscordToken:
-       bot.run(DiscordToken)
-   else:
-       print("FEHLER: Kein Token in der .env Datei gefunden!")
+
+
