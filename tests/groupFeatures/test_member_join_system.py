@@ -46,6 +46,12 @@ class test_member_join_system(unittest.IsolatedAsyncioTestCase):
                 patch('json.load', return_value={"jokes": {"welcome": ["Witz"]}}), \
                 patch('utils.embedded_messages.embedded_welcome_message', return_value=discord.Embed(title="Test")):
             await on_voice_state_update(member, before, after)
+        with patch('os.path.exists', return_value=False):
+            print(" ")
+
+
+        system_channel.send.assert_called_once()
+
 
         # 3. Prüfung (Assertion)
         system_channel.send.assert_called_once()  # Wurde eine Nachricht gesendet?
