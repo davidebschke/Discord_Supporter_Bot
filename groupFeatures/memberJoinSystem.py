@@ -15,7 +15,7 @@ DiscordToken=os.getenv('DISCORD_BOT_TOKEN')
 
 @bot.event
 async def on_ready():
-    print(f'Bot ist online als {bot.user}')
+    print(f'Bot ist online als {bot.user.name}')
     await bot.tree.sync()
 
 
