@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from groupFeatures.memberJoinSystem import DiscordToken, bot
+from groupFeatures.member_join_system import DiscordToken, bot
 
 if __name__ == "__main__":
    if DiscordToken:

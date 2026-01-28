@@ -2,7 +2,7 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-from utils import embeddedMessages
+from utils import embedded_messages
 import json
 import random
 
