@@ -25,17 +25,18 @@ async def on_ready():
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    if os.path.exists('../assets/welcome_jokes.json'):
-        with open('../assets/welcome_jokes.json', 'r', encoding='utf-8') as f:
+    if os.path.exists('assets/welcome_jokes.json'):
+        with open('assets/welcome_jokes.json', 'r', encoding='utf-8') as f:
             date_welcome_jokes = json.load(f)
         random_joke = random.choice(date_welcome_jokes["jokes"]["welcome"])
     else:
         random_joke = None
+        print("der pfad existiert nicht")
     # The first channel you enter
     if before.channel is None and after.channel is not None:
         channel = after.channel.guild.system_channel
         if channel:
-            await channel.send(embed=embeddedMessages.embedded_welcome_message(member,after.channel,random_joke))
+            await channel.send(embed=embedded_messages.embedded_welcome_message(member,after.channel,random_joke))
 
     # When changing channels
     elif before.channel is not None and after.channel is not None and before.channel != after.channel:
