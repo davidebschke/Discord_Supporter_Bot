@@ -3,6 +3,7 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from utils import embeddedMessages
 
 intents = discord.Intents.default()
 intents.members = True       # Um zu sehen, wer dem Server beitritt
@@ -27,7 +28,7 @@ async def on_voice_state_update(member, before, after):
     if before.channel is None and after.channel is not None:
         channel = after.channel.guild.system_channel
         if channel:
-            await channel.send(f"📢 **{member.display_name}** ist gerade im Channel `{after.channel.name}` gelandet!")
+            await channel.send(embed=embeddedMessages.embedded_welcome_message(member,after.channel))
 
     # When changing channels
     elif before.channel is not None and after.channel is not None and before.channel != after.channel:
