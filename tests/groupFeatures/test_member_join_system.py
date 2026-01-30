@@ -1,3 +1,4 @@
+import json
 import unittest
 from unittest.mock import AsyncMock, MagicMock, patch
 import discord
@@ -40,11 +41,19 @@ class test_member_join_system(unittest.IsolatedAsyncioTestCase):
         after.channel.guild.system_channel = system_channel
 
         # 2. Ausführung
-        # Wir 'patchen' die JSON-Abhängigkeiten, damit der Test nicht die echte Datei braucht
+        # Vorbereitung der Mock-Daten
+        mock_data = {"jokes": {"welcome": ["Witz"]}}
+        mock_content = json.dumps(mock_data)
+
+        # Der Test-Block
         with patch('os.path.exists', return_value=True), \
-                patch('builtins.open', unittest.mock.mock_open(read_data='{"jokes": {"welcome": ["Witz"]}}')), \
-                patch('json.load', return_value={"jokes": {"welcome": ["Witz"]}}), \
+                patch('anyio.open_file', new_callable=AsyncMock) as mock_anyio_open, \
                 patch('utils.embedded_messages.embedded_welcome_message', return_value=discord.Embed(title="Test")):
+            # Wir erstellen einen asynchronen Context Manager Mock für das File-Objekt
+            mock_file = AsyncMock()
+            mock_file.read.return_value = mock_content
+            mock_anyio_open.return_value.__aenter__.return_value = mock_file
+
             await on_voice_state_update(member, before, after)
 
 

@@ -1,9 +1,6 @@
 import unittest
-
-import unittest
 from unittest.mock import MagicMock
 import discord
-import datetime
 
 from utils import embedded_messages
 
