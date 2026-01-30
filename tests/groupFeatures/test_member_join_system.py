@@ -21,7 +21,7 @@ class test_member_join_system(unittest.IsolatedAsyncioTestCase):
         bot.tree.sync.assert_called_once()
         self.assertIsInstance(synced, list, "Sync sollte eine Liste von Commands zurückgeben")
 
-    async def test_join_first_channel(self):
+    async def test_join_first_channel(mock_print):
         """Test: Member betritt zum ersten Mal einen Channel (before.channel is None)"""
 
         # 1. Setup Mocks
@@ -46,8 +46,7 @@ class test_member_join_system(unittest.IsolatedAsyncioTestCase):
                 patch('json.load', return_value={"jokes": {"welcome": ["Witz"]}}), \
                 patch('utils.embedded_messages.embedded_welcome_message', return_value=discord.Embed(title="Test")):
             await on_voice_state_update(member, before, after)
-        with patch('os.path.exists', return_value=False):
-                random_joke = None
+
 
 
         system_channel.send.assert_called_once()
