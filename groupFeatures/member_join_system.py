@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from utils import embedded_messages
 import json
 import random
+import anyio
 
 intents = discord.Intents.default()
 intents.members = True       # Um zu sehen, wer dem Server beitritt
@@ -26,9 +27,10 @@ async def on_ready():
 @bot.event
 async def on_voice_state_update(member, before, after):
     if os.path.exists('assets/welcome_jokes.json'):
-        with open('assets/welcome_jokes.json', 'r', encoding='utf-8') as f:
-            date_welcome_jokes = json.load(f)
-        random_joke = random.choice(date_welcome_jokes["jokes"]["welcome"])
+        async with await anyio.open_file('assets/welcome_jokes.json', 'r', encoding='utf-8') as file:
+            content = await file.read()
+            data_welcome_jokes = json.loads(content)
+        random_joke = random.choice(data_welcome_jokes['jokes']['welcome'])
     else:
         random_joke = None
         print("der pfad existiert nicht")
