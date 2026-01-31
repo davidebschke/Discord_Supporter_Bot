@@ -30,3 +30,4 @@
 ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=davidebschke_Discord_Supporter_Bot&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=davidebschke_Discord_Supporter_Bot)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-yellow.svg)]([https://buymeacoffee.com/xdavideusx])
