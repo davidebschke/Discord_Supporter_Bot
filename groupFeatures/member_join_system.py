@@ -1,11 +1,13 @@
+import json
 import os
+import random
+
+import anyio
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+
 from utils import embedded_messages
-import json
-import random
-import anyio
 
 intents = discord.Intents.default()
 intents.members = True       # Um zu sehen, wer dem Server beitritt
@@ -18,14 +20,33 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 load_dotenv()
 DiscordToken=os.getenv('DISCORD_BOT_TOKEN')
 
+
 @bot.event
 async def on_ready():
+    """
+
+    Returns:
+
+    """
     print(f'Bot ist online als {bot.user.name}')
     await bot.tree.sync()
 
 
 @bot.event
 async def on_voice_state_update(member, before, after):
+    """
+
+    This checks whether the member is changing channels
+    or joining a new one. In addition, a joke is displayed when a new member joins.
+
+    Args:
+        member: The Channel Member
+        before: The previous channel
+        after: The future channel
+
+    Returns: None
+
+    """
     if os.path.exists('assets/welcome_jokes.json'):
         async with await anyio.open_file('assets/welcome_jokes.json', 'r', encoding='utf-8') as file:
             content = await file.read()
