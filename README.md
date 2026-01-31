@@ -4,12 +4,12 @@
 ---
 
 ## Features
-| Feature                  |                                                                                                         Description                                                                                                         | implemented? |
-|:-------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|-------------:|
-| Welcome Messaging        |                                                                    Whenever a member goes online and enters a channel, an embedded message is displayed                                                                     |          [X] |
-| Channel Change Messaging |                                                                       Whenever a member is online and changes channels, a normal message is displayed                                                                       |          [X] |
-| TTS Channel Join         |                                             Here, the name of the person who is currently entering the channel is read aloud. Only those who are in the channel will hear this.                                             |          [0] |
-| Message Commands         |                                                          Various messages Commands that enable players to perform certain functions (to be defined in more detail)                                                          |          [0] |
+| Feature                  |                                                             Description                                                             | implemented? |
+|:-------------------------|:-----------------------------------------------------------------------------------------------------------------------------------:|-------------:|
+| Welcome Messaging        |       Whenever a member goes online and enters a channel, an embedded message is displayed ( over 20 funny welcome messages)        |          [X] |
+| Channel Change Messaging |                           Whenever a member is online and changes channels, a normal message is displayed                           |          [X] |
+| TTS Channel Join         | Here, the name of the person who is currently entering the channel is read aloud. Only those who are in the channel will hear this. |          [0] |
+| Message Commands         |              Various messages Commands that enable players to perform certain functions (to be defined in more detail)              |          [0] |
 
 #### [X] Implemented <br>
 #### [0] Not Implemented
