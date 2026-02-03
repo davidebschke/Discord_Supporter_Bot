@@ -1,8 +1,5 @@
 {
-  "settings": {
-      "language": [
-        "en"
-    ]
-
-  }
+    "settings": {
+        "language": "de"
+    }
 }

@@ -1,0 +1,50 @@
+import json
+import os
+
+import anyio
+import discord
+from discord import app_commands
+from discord.ext import commands
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+class tree_commands(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @app_commands.command(name="language", description="Setzt die Sprache")
+    @app_commands.choices(language=[
+        app_commands.Choice(name="Deutsch", value="de"),
+        app_commands.Choice(name="English", value="en")
+    ])
+    async def language(self, interaction: discord.Interaction, language: app_commands.Choice[str]):
+
+        if os.path.exists('assets/settings.json'):
+            try:
+                with open('assets/settings.json', 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    data["settings"]["language"]=language.value
+                    try:
+                        with open('assets/settings.json', 'w', encoding='utf-8') as f:
+                            json.dump(data, f, indent=4, ensure_ascii=False)
+
+                        await interaction.response.send_message(
+                            f"✅ Sprache wurde in der JSON auf `['{language.value}']` aktualisiert.",
+                            ephemeral=True
+                        )
+                    except Exception as e:
+                        await interaction.response.send_message(f"❌ Fehler: {e}", ephemeral=True)
+            except (json.JSONDecodeError, FileNotFoundError):
+                pass
+                await interaction.response.send_message(f"Sprache auf {language.name} gesetzt!", ephemeral=True)
+
+
+
+async def setup(bot):
+    # Falls dein System in einer Klasse (Cog) ist:
+    await bot.add_cog(tree_commands(bot))
+
+
+    # Falls es nur Funktionen sind, reicht der Import oben in der main.
+    pass
