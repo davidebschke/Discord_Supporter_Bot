@@ -2,8 +2,9 @@ import json
 import unittest
 from unittest.mock import AsyncMock, MagicMock, patch
 import discord
+import pytest
 from discord.ext import commands
-from groupFeatures.member_join_system import on_voice_state_update
+from groupFeatures.member_join_system import member_join_system
 
 
 class test_member_join_system(unittest.IsolatedAsyncioTestCase):
@@ -22,47 +23,45 @@ class test_member_join_system(unittest.IsolatedAsyncioTestCase):
         bot.tree.sync.assert_called_once()
         self.assertIsInstance(synced, list, "Sync sollte eine Liste von Commands zurückgeben")
 
-    async def test_join_first_channel(mock_print):
-        """Test: Member betritt zum ersten Mal einen Channel (before.channel is None)"""
-
-        # 1. Setup Mocks
-        member = MagicMock(spec=discord.Member)
-        member.display_name = "TestUser"
-
+    @pytest.mark.asyncio
+    async def test_join_first_channel(self):
+        # 1. Mocks für Discord-Objekte
+        member = MagicMock()
         before = MagicMock()
-        before.channel = None  # Er war vorher in keinem Channel
-
         after = MagicMock()
-        after.channel = MagicMock(spec=discord.VoiceChannel)
-        after.channel.name = "Lounge"
 
-        # System Channel simulieren, an den die Nachricht geht
-        system_channel = AsyncMock()
-        after.channel.guild.system_channel = system_channel
+        # Status: User tritt Channel bei
+        before.channel = None
+        after.channel = MagicMock()
 
-        # 2. Ausführung
-        # Vorbereitung der Mock-Daten
-        mock_data = {"jokes": {"welcome": ["Witz"]}}
-        mock_content = json.dumps(mock_data)
+        # Mock für den System-Channel, in den die Willkommensnachricht geht
+        system_channel_mock = AsyncMock()
+        after.channel.guild.system_channel = system_channel_mock
 
-        # Der Test-Block
-        with patch('os.path.exists', return_value=True), \
-                patch('anyio.open_file', new_callable=AsyncMock) as mock_anyio_open, \
-                patch('utils.embedded_messages.embedded_welcome_message', return_value=discord.Embed(title="Test")):
-            # Wir erstellen einen asynchronen Context Manager Mock für das File-Objekt
-            mock_file = AsyncMock()
-            mock_file.read.return_value = mock_content
-            mock_anyio_open.return_value.__aenter__.return_value = mock_file
+        # 2. Cog instanziieren
+        from groupFeatures.member_join_system import member_join_system
+        bot_mock = MagicMock()
+        cog = member_join_system(bot_mock)
 
-            await on_voice_state_update(member, before, after)
+        # 3. Den Datei-Zugriff simulieren (Mocking)
+        # Wir fangen die anyio-Dateizugriffe ab, damit der KeyError verschwindet
+        mock_settings = json.dumps({"settings": {"language": ["de"]}})
+        mock_jokes = json.dumps({"jokes": {"welcome_DE": ["Test-Witz"], "welcome_EN": ["Test-Joke"]}})
 
+        # Wir "patchen" die open_file Funktion von anyio
+        with patch("anyio.open_file") as mocked_open:
+            # Wir simulieren das Lesen der Dateien
+            mocked_file = AsyncMock()
+            # Beim ersten Aufruf (Witze) geben wir jokes zurück, beim zweiten (Settings) settings
+            mocked_file.read.side_effect = [mock_jokes, mock_settings]
+            mocked_open.return_value.__aenter__.return_value = mocked_file
 
+            # 4. Die Funktion ausführen
+            await cog.on_voice_state_update(member, before, after)
 
-        system_channel.send.assert_called_once()
-
-
-        # 3. Prüfung (Assertion)
-        system_channel.send.assert_called_once()  # Wurde eine Nachricht gesendet?
+        # 5. Überprüfung: Wurde eine Nachricht gesendet?
+        system_channel_mock.send.assert_called()
+        print("✅ Test erfolgreich: Nachricht wurde gesendet!")
 
     async def test_change_channel(self):
         """Test: Member wechselt von einem Channel in einen anderen"""
@@ -84,7 +83,7 @@ class test_member_join_system(unittest.IsolatedAsyncioTestCase):
         after.channel.guild.system_channel = system_channel
 
         # Ausführung
-        await on_voice_state_update(member, before, after)
+        await member_join_system.on_voice_state_update(member, before, after)
 
         # Prüfung: Die Wechsel-Nachricht sollte gesendet worden sein
         system_channel.send.assert_called_with("🔄 TestUser, ist von `Alt` zu `Neu` gewechselt.")

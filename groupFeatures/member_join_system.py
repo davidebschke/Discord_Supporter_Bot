@@ -38,7 +38,7 @@ class member_join_system(commands.Cog):
 
 
     @bot.event
-    async def on_voice_state_update(member, before, after):
+    async def on_voice_state_update(self,member, before, after):
         """
 
         This checks whether the member is changing channels
