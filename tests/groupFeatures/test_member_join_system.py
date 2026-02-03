@@ -83,7 +83,7 @@ class test_member_join_system(unittest.IsolatedAsyncioTestCase):
         after.channel.guild.system_channel = system_channel
 
         # Ausführung
-        await member_join_system.on_voice_state_update(member, before, after)
+        await member_join_system.on_voice_state_update(self,member, before, after)
 
         # Prüfung: Die Wechsel-Nachricht sollte gesendet worden sein
         system_channel.send.assert_called_with("🔄 TestUser, ist von `Alt` zu `Neu` gewechselt.")
