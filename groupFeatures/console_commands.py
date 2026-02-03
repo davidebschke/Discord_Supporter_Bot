@@ -13,7 +13,7 @@ class tree_commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.command(name="language", description="Setzt die Sprache")
+    @app_commands.command(name="language", description="Change the Language from the bot,Wechselt die Sprache des bots")
     @app_commands.choices(language=[
         app_commands.Choice(name="Deutsch", value="de"),
         app_commands.Choice(name="English", value="en")

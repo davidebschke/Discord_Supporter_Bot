@@ -83,6 +83,7 @@ class member_join_system(commands.Cog):
             elif local_server_language == "en":
                 await channel.send(
                     f"🔄 The User: {member.display_name} has switched from `{before.channel.name}` to `{after.channel.name}`")
+
 async def setup(bot):
     # Falls dein System in einer Klasse (Cog) ist:
     await bot.add_cog(member_join_system(bot))
