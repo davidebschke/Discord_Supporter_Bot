@@ -78,8 +78,11 @@ class member_join_system(commands.Cog):
         # When changing channels
         elif before.channel is not None and after.channel is not None and before.channel != after.channel:
             channel = after.channel.guild.system_channel
-            await channel.send(f"🔄 {member.display_name}, ist von `{before.channel.name}` zu `{after.channel.name}` gewechselt.")
-
+            if local_server_language == "de":
+                await channel.send(f"🔄 {member.display_name}, ist von `{before.channel.name}` zu `{after.channel.name}` gewechselt.")
+            elif local_server_language == "en":
+                await channel.send(
+                    f"🔄 The User: {member.display_name} has switched from `{before.channel.name}` to `{after.channel.name}`")
 async def setup(bot):
     # Falls dein System in einer Klasse (Cog) ist:
     await bot.add_cog(member_join_system(bot))
