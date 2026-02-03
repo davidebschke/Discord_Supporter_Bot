@@ -29,17 +29,20 @@ class tree_commands(commands.Cog):
                         with open('assets/settings.json', 'w', encoding='utf-8') as f:
                             json.dump(data, f, indent=4, ensure_ascii=False)
 
-                        await interaction.response.send_message(
-                            f"✅ Sprache wurde in der JSON auf `['{language.value}']` aktualisiert.",
-                            ephemeral=True
-                        )
+
+                            if language.value == "de":
+                                await interaction.response.send_message(f"✅ Sprache wurde in der JSON auf `['{language.value}']` aktualisiert.",ephemeral=True)
+                            elif language.value == "en":
+                                await interaction.response.send_message(f"✅ Language was set to in the JSON `['{language.value}']`",ephemeral=True)
+
                     except Exception as e:
                         await interaction.response.send_message(f"❌ Fehler: {e}", ephemeral=True)
             except (json.JSONDecodeError, FileNotFoundError):
                 pass
-                await interaction.response.send_message(f"Sprache auf {language.name} gesetzt!", ephemeral=True)
-
-
+                if language.value == "de":
+                    await interaction.response.send_message(f"Sprache auf {language.name} gesetzt!", ephemeral=True)
+                elif language.value == "en":
+                    await interaction.response.send_message(f"Language set to {language.name}!", ephemeral=True)
 
 async def setup(bot):
     # Falls dein System in einer Klasse (Cog) ist:
