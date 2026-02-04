@@ -21,11 +21,6 @@ jobs:
         run: |
             pip install -r requirements.txt
             pip install pytest pytest-cov # Tools für den Report
-
-      - name: Run Tests and Generate Report
-        run: |   
-              export PYTHONPATH=$PYTHONPATH:
-              pytest --cov=. --cov-report=xml:coverage.xml
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
@@ -38,3 +33,8 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.tests=tests
             -Dsonar.verbose=true
+      - name: Run Tests and Generate Report
+        run: |   
+              export PYTHONPATH=$PYTHONPATH:
+              pytest --cov=. --cov-report=xml:coverage.xml
+     
