@@ -3,9 +3,9 @@ import os
 import random
 import anyio
 import discord
-from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
+
 from utils import embedded_messages
 
 intents = discord.Intents.default()
@@ -87,7 +87,3 @@ class member_join_system(commands.Cog):
 async def setup(bot):
     # Falls dein System in einer Klasse (Cog) ist:
     await bot.add_cog(member_join_system(bot))
-
-
-    # Falls es nur Funktionen sind, reicht der Import oben in der main.
-    pass
