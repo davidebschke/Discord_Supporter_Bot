@@ -29,10 +29,8 @@ async def on_ready():
         # WICHTIG: Damit Befehle aus anderen Dateien erscheinen:
         bot.tree.copy_global_to(guild=MY_GUILD)
         synced = await bot.tree.sync(guild=MY_GUILD)
-
-        print(f"✅ Synchronisiert: {len(synced)} Befehle auf Server {server_id}.")
     except Exception as e:
-        print(f"❌ Fehler beim Sync: {e}")
+        print(f"Fehler beim Sync: {e}")
 
 
 if __name__ == "__main__":

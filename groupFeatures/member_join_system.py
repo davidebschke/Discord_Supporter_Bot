@@ -38,7 +38,7 @@ class member_join_system(commands.Cog):
 
 
     @bot.event
-    async def on_voice_state_update(self,member, before, after):
+    async def on_voice_state_update(member, before, after):
         """
 
         This checks whether the member is changing channels
@@ -79,10 +79,10 @@ class member_join_system(commands.Cog):
         elif before.channel is not None and after.channel is not None and before.channel != after.channel:
             channel = after.channel.guild.system_channel
             if local_server_language == "de":
-                await channel.send(f"🔄 {member.display_name}, ist von `{before.channel.name}` zu `{after.channel.name}` gewechselt.")
+                await channel.send(f"{member.display_name}, ist von `{before.channel.name}` zu `{after.channel.name}` gewechselt.")
             elif local_server_language == "en":
                 await channel.send(
-                    f"🔄 The User: {member.display_name} has switched from `{before.channel.name}` to `{after.channel.name}`")
+                    f"The User: {member.display_name} has switched from `{before.channel.name}` to `{after.channel.name}`")
 
 async def setup(bot):
     # Falls dein System in einer Klasse (Cog) ist:
