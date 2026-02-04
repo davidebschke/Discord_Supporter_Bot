@@ -43,6 +43,3 @@ async def setup(bot):
     # Falls dein System in einer Klasse (Cog) ist:
     await bot.add_cog(tree_commands(bot))
 
-
-    # Falls es nur Funktionen sind, reicht der Import oben in der main.
-    pass
