@@ -2,7 +2,8 @@ import unittest
 
 from tests.utils.test_embedded_messages import Test_embedded_welcome_messages
 from tests.groupFeatures.test_tree_commands import Test_tree_commands
-
+from tests.groupFeatures.test_member_join_system import Test_member_join_system
+from tests.utils.test_load_jokes import Test_loadJokes
 
 def run_suite():
 
@@ -12,6 +13,8 @@ def run_suite():
     suite = unittest.TestSuite()
     suite.addTests(Test_embedded_welcome_messages)
     suite.addTests(Test_tree_commands)
+    suite.addTests(Test_member_join_system)
+    suite.addTests(Test_loadJokes)
     runner = unittest.TextTestRunner()
     runner.run(suite)
 

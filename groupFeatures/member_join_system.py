@@ -1,10 +1,11 @@
-import json
+
 import os
-import random
-import anyio
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from utils.load_settings import load_language
+from utils.normal_messages import changing_channel_message
+from utils.load_jokes import load_welcome_jokes
 
 from utils import embedded_messages
 
@@ -16,6 +17,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 load_dotenv()
 DiscordToken=os.getenv('DISCORD_BOT_TOKEN')
+
 
 class member_join_system(commands.Cog):
 
@@ -29,6 +31,7 @@ class member_join_system(commands.Cog):
         Returns:
 
         """
+
         print(f'Bot ist online als {bot.user.name}')
         try:
             synced = await bot.tree.sync(guild=discord.Object(id=os.getenv('SERVER_ID')))
@@ -52,37 +55,17 @@ class member_join_system(commands.Cog):
         Returns: None
 
         """
-        if os.path.exists('assets/welcome_jokes.json'):
-            async with await anyio.open_file('assets/welcome_jokes.json', 'r', encoding='utf-8') as file:
-                content = await file.read()
-                data_welcome_jokes = json.loads(content)
-            async with await anyio.open_file('assets/settings.json', 'r', encoding='utf-8') as f:
-                content = await f.read()
-                language_file = json.loads(content)
-                language_data = language_file['settings']['language']
-                local_server_language=language_data
-            if local_server_language == "de":
-                random_joke = random.choice(data_welcome_jokes['jokes']['welcome_DE'])
-            else:
-                random_joke = random.choice(data_welcome_jokes['jokes']['welcome_EN'])
+        language= await load_language()
+        random_joke=await load_welcome_jokes(language)
 
-        else:
-            random_joke = None
-            print("der pfad existiert nicht")
         # The first channel you enter
         if before.channel is None and after.channel is not None:
             channel = after.channel.guild.system_channel
             if channel:
                 await channel.send(embed=embedded_messages.embedded_welcome_message(member,after.channel,random_joke))
-
         # When changing channels
         elif before.channel is not None and after.channel is not None and before.channel != after.channel:
-            channel = after.channel.guild.system_channel
-            if local_server_language == "de":
-                await channel.send(f"{member.display_name}, ist von `{before.channel.name}` zu `{after.channel.name}` gewechselt.")
-            elif local_server_language == "en":
-                await channel.send(
-                    f"The User: {member.display_name} has switched from `{before.channel.name}` to `{after.channel.name}`")
+            await changing_channel_message(member, before, after,language)
 
 async def setup(bot):
     # Falls dein System in einer Klasse (Cog) ist:

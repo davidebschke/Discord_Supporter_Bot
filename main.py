@@ -1,7 +1,6 @@
 
 import discord
 import os
-from dotenv import load_dotenv
 # WICHTIG: Importiere nur das Bot-Objekt, aber starte es noch nicht!
 from groupFeatures.member_join_system import bot, DiscordToken
 
@@ -9,7 +8,7 @@ from groupFeatures.member_join_system import bot, DiscordToken
 # Wir definieren den setup_hook direkt am bot-Objekt
 async def my_setup():
 
-    await bot.load_extension('groupFeatures.console_commands')
+    await bot.load_extension('groupFeatures.tree_commands')
     await bot.load_extension('groupFeatures.member_join_system')
     print("Cogs geladen!"+ str(bot.cogs.keys()))
 
