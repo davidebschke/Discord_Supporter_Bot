@@ -1,38 +1,40 @@
-import unittest
 from unittest.mock import MagicMock
 import discord
+import pytest
 
-from utils import embedded_messages
-
-class TestWelcomeEmbed(unittest.TestCase):
-
-    def test_embedded_welcome_message_content(self):
-        # 1. Setup: Fake-Objekte erstellen
-        mock_member = MagicMock()
-        mock_member.__str__.return_value = "TestUser#1234"
-
-        mock_channel = MagicMock()
-        mock_channel.__str__.return_value = "Lounge"
-
-        test_msg = "ist gerade gelandet!"
-
-        # 2. Aktion: Funktion ausführen
-        embed = embedded_messages.embedded_welcome_message(mock_member, mock_channel, test_msg)
-
-        # 3. Assert: Prüfen, ob alles stimmt
-        self.assertIsInstance(embed, discord.Embed)
-
-        # Prüfen, ob der Titel den User und Channel enthält
-        expected_title = "TestUser#1234 hat gerade den Channel Lounge betreten"
-        self.assertEqual(embed.title, expected_title)
-
-        # Prüfen, ob die Beschreibung korrekt zusammengebaut wurde
-        expected_desc = "TestUser#1234 ist gerade gelandet!"
-        self.assertEqual(embed.description, expected_desc)
-
-        # Prüfen, ob die Farbe stimmt
-        self.assertEqual(embed.color, discord.Color.brand_green())
+from utils.embedded_messages import embedded_welcome_message
 
 
-if __name__ == '__main__':
-    unittest.main()
+class Test_embedded_welcome_messages:
+
+    @pytest.fixture
+    def mock_member(self):
+        """Erstellt einen sauberen Member-Mock für jeden Test"""
+        member = MagicMock(spec=discord.Member)
+        member.__str__.return_value = "David#1234"
+        return member
+
+    @pytest.fixture
+    def mock_channel(self):
+        """Erstellt einen sauberen Channel-Mock"""
+        channel = MagicMock(spec=discord.TextChannel)
+        channel.__str__.return_value = "lobby"
+        return channel
+
+    def test_title_formatting(self, mock_member, mock_channel):
+        """Prüft, ob der Titel die Namen korrekt kombiniert"""
+        embed = embedded_welcome_message(mock_member, mock_channel, "Hi!")
+        expected = "David#1234 hat gerade den Channel lobby betreten"
+        assert embed.title == expected
+
+    def test_embed_color_is_green(self, mock_member, mock_channel):
+        """Stellt sicher, dass die Farbe immer Brand-Green ist"""
+        embed = embedded_welcome_message(mock_member, mock_channel, "Hi!")
+        assert embed.color == discord.Color.brand_green()
+
+    def test_description_content(self, mock_member, mock_channel):
+        """Prüft, ob die Beschreibung den Member und die Nachricht enthält"""
+        msg = "willkommen im Team!"
+        embed = embedded_welcome_message(mock_member, mock_channel, msg)
+        assert "David#1234" in embed.description
+        assert msg in embed.description
