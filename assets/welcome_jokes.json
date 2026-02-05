@@ -1,6 +1,6 @@
 {
   "jokes": {
-    "welcome": [
+    "welcome_DE": [
       "hat den Channel gesprengt",
       "ist zufällig in den Channel gerutscht",
       "hat sich in den Channel verirrt",
@@ -19,6 +19,26 @@
       "dachte, das hier sei das Ende des Regenbogens und sucht nun nach dem Goldtopf",
       "wurde von einer wilden Herde Datenpakete hierher getrieben.",
       "hat versucht, durch die Wand von Gleis 9 ¾ zu rennen und landete hier."
+    ],
+    "welcome_EN": [
+      "blew up the channel",
+      "accidentally slipped into the channel",
+      "got lost in the channel",
+      "was looking for the way to Mordor and ended up here",
+      "took a wrong turn over the seven mountains, to the seven dwarves, and to Frau Holle",
+      "needs to get their bearings first and is asking for directions in the channel",
+      "ended up in this channel after crossing the River Styx and climbing Mount Olympus",
+      "the road to Valhalla was too long, so they ended up in this channel",
+      "slipped while joining",
+      "swinging into the channel on a vine",
+      "tripped over a loose LAN cable and fell right here",
+      "was beamed up, but the target coordinates were slightly off",
+      "swallowed the red capsule and landed deep in the rabbit hole of this channel",
+      "was delivered to this channel by Hermes, the messenger of the gods, himself." ,
+      "followed the white rabbit and ended up in the wrong burrow",
+      "thought this was the end of the rainbow and is now looking for the pot of gold",
+      "was driven here by a wild herd of data packets",
+      "tried to run through the wall of Platform 9 ¾ and ended up here."
     ]
   }
 }

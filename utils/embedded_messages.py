@@ -1,7 +1,5 @@
 import datetime
-
 import discord
-
 
 def embedded_welcome_message(welcome_member,channel,description_message):
     """
